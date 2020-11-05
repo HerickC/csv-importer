@@ -2109,7 +2109,8 @@ __webpack_require__.r(__webpack_exports__);
 var app = new Vue({
   el: '#app',
   data: {
-    clients: []
+    clients: [],
+    uploadProgress: 0
   },
   methods: {
     getAllClients: function getAllClients() {
@@ -2124,6 +2125,26 @@ var app = new Vue({
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/api/clients/".concat(id)).then(function (response) {
         _this2.getAllClients();
+      });
+    },
+    uploadFile: function uploadFile() {
+      var _this3 = this;
+
+      this.uploadProgress = 0;
+      var formData = new FormData();
+      var fileUpload = document.querySelector('#fileUpload');
+      formData.append("clients", fileUpload.files[0]);
+      var config = {
+        onUploadProgress: function onUploadProgress(event) {
+          _this3.uploadProgress = Math.round(event.loaded * 100 / event.total);
+          console.log(_this3.uploadProgress);
+        },
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/import', formData, config).then(function () {
+        _this3.getAllClients();
       });
     }
   },

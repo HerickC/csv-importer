@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,7 @@ use App\Http\Controllers\ClientController;
 */
 
 Route::get('clients',           [ClientController::class, 'getClients']);
+Route::get('teste/{id}',        [ClientController::class, 'testGmap']);
 Route::delete('clients/{id}',   [ClientController::class, 'deleteClient']);
+
+Route::post('/import',          [ImportController::class, 'importClients']);

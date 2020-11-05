@@ -38,7 +38,13 @@
                 <tr v-for="client in clients" :key="`client${client.id}`">
                     <th scope="row" class="text-center">@{{client.id}}</th>
                     <td>@{{client.name}}</td>
-                    <td>@{{client.address.city}}, @{{client.address.state}}</td>
+                    <td v-bind:class="{textCenter: client.address.city == null}">
+                        <span v-if="client.address.city == null" class="text-center"><i class="fas fa-spinner fa-spin"></i></span>
+                        <span v-else>
+                            @{{client.address.city}}, @{{client.address.state}}
+                        </span>
+
+                    </td>
                     <td class="text-center">
                         <span v-if="client.geoLocation.lat == null"><i class="fas fa-spinner fa-spin"></i></span>
                         <span v-else>
@@ -74,11 +80,14 @@
         <div class="modal-body">
             <div class="form-group">
                 <label for="exampleFormControlFile1">Arquivo CSV</label>
-                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                <input type="file" class="form-control-file" id="fileUpload" accept=".csv">
+            </div>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" v-bind:style="{width: uploadProgress+'%'}" :aria-valuenow="uploadProgress" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Enviar</button>
+            <button type="button" class="btn btn-primary"v-on:click="uploadFile()">Enviar</button>
         </div>
         </div>
     </div>

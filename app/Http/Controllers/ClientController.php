@@ -5,19 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Clients;
 use App\Models\Addresses;
+use App\Traits\GoogleMaps;
 use Carbon\Carbon;
 
 class ClientController extends Controller
 {
-    //
+    use GoogleMaps;
 
     public function getClients(){
         $formatedClients = [];
 
         $clients = Clients::with("addresses")->get();
         foreach($clients as $client) {
-            $firstAddress = [];
-            $firstGeoLocation = null;
+            $firstAddress = ['city' => null];
+            $firstGeoLocation = ['lat'=> null, 'lng'=> null];
             foreach($client->addresses as $address){
                 $firstAddress = json_decode($address->address, true);
                 $firstGeoLocation = isset($address->geolocation) ? json_decode($address->geolocation, true) : ['lat'=> null, 'lng'=> null];
@@ -52,5 +53,12 @@ class ClientController extends Controller
         }
 
         return response('', $status);
+    }
+
+
+    public function testGmap($id)
+    {
+        $client = Clients::find($id);
+        return $this->getGeoLocationData($client);
     }
 }
