@@ -6,7 +6,7 @@
     <p class="lead">Sistema de Importação de clientes e busca por geolocalização</p>
 </div>
 
-<div class="row">
+<div class="row" v-cloak>
     <div class="col-md-12" style="margin-bottom: 25px">
         <button type="button" class="btn btn-primary btn-sm float-right" style="margin-left: 25px">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cloud-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -27,21 +27,26 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                <th scope="col">#</th>
+                <th scope="col" class="text-center">#</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Endereço</th>
-                <th scope="col">GeoLocalização</th>
-                <th scope="col">Ações</th>
+                <th scope="col" class="text-center">Geo Localização</th>
+                <th scope="col" class="text-center">Ações</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Herick Carvalho</td>
-                    <td>Belo Horizonte, MG</td>
-                    <td>-43.55, 19.53</td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-xs mx-auto">
+                <tr v-for="client in clients" :key="`client${client.id}`">
+                    <th scope="row" class="text-center">@{{client.id}}</th>
+                    <td>@{{client.name}}</td>
+                    <td>@{{client.address.city}}, @{{client.address.state}}</td>
+                    <td class="text-center">
+                        <span v-if="client.geoLocation.lat == null"><i class="fas fa-spinner fa-spin"></i></span>
+                        <span v-else>
+                            <a href="#" target="_blank">@{{client.geoLocation.lat}}, @{{client.geoLocation.lng}}</a>
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-danger btn-xs" v-on:click="removeClient(client.id)">
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>

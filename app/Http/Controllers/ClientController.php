@@ -5,14 +5,37 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Clients;
 use App\Models\Addresses;
+use Carbon\Carbon;
 
 class ClientController extends Controller
 {
     //
 
     public function getClients(){
-        $clients = Clients::all();
-        return response()->json($clients);
+        $formatedClients = [];
+
+        $clients = Clients::with("addresses")->get();
+        foreach($clients as $client) {
+            $firstAddress = [];
+            $firstGeoLocation = null;
+            foreach($client->addresses as $address){
+                $firstAddress = json_decode($address->address, true);
+                $firstGeoLocation = isset($address->geolocation) ? json_decode($address->geolocation, true) : ['lat'=> null, 'lng'=> null];
+                break;
+            }
+
+            array_push($formatedClients, [
+                'id' => $client->id,
+                'name' => $client->name,
+                'email' => $client->email,
+                'cpf' => $client->doc,
+                'birthday' => Carbon::createFromFormat('Y-m-d', $client->birthday)->format('d/m/Y'),
+                'address' => $firstAddress,
+                'geoLocation' => $firstGeoLocation,
+            ]);
+        }
+
+        return response()->json($formatedClients);
     }
 
     public function deleteClient($id){
