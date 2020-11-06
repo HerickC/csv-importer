@@ -11,7 +11,7 @@ class ImportController extends Controller
 {
     public function importClients(Request $request)
     {
-        if($request->file('clients') == null) return response()->json($response, 401);
+        if(!$request->hasFile('clients')) return response()->json([], 401);
 
         Excel::import(new ClientsImport, $request->file('clients'));
         getGeoLocation::dispatch();

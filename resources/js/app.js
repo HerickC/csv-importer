@@ -16,14 +16,24 @@ var app = new Vue({
       clients: [],
       uploadProgress: 0,
     },
+    computed: {
+        hasClients: function(){
+            return this.clients.length > 0;
+        },
+
+    },
     methods: {
         getAllClients: function(){
             Axios.get('/api/clients').then((response) => {
                 this.clients = response.data;
+
+                Vue.nextTick().then(function () {
+                    jQuery('[data-toggle="tooltip"]').tooltip();
+                });
             });
         },
         removeClient: function(id) {
-            Axios.delete(`/api/clients/${id}`).then((response) => {
+            Axios.delete(`/api/clients/${id}`).then(() => {
                 this.getAllClients();
             });
         },
@@ -39,7 +49,6 @@ var app = new Vue({
                     this.uploadProgress = Math.round(
                       (event.loaded * 100) / event.total
                     );
-                    console.log(this.uploadProgress);
                 },
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -47,8 +56,22 @@ var app = new Vue({
             }
 
             Axios.post('/api/import', formData, config).then(()=>{
+                $('#importModal').modal('hide')
                 this.getAllClients();
+                this.uploadProgress = 0;
             })
+        },
+        formatedClientTooltip: function(client){
+            return `<b>E-Mail: </b>${client.email}<br><b>CPF: </b>${client.cpf}<br><b>Nascimento: </b> ${client.birthday}<br>`;
+        },
+        formatedAddressTooltip: function(address){
+            const complement = address.complementary != null ? ' - '+ address.complementary : '';
+            return `${address.street}, ${address.street_number}${complement}<br>`+
+                   `${address.neighborhood}, ${address.city}, ${address.state}<br>`+
+                   `<b>CEP: </b> ${address.zipcode}`;
+        },
+        exportClients: function(){
+            window.open('/export', '_blank');
         }
     },
     mounted() {

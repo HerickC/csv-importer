@@ -25,7 +25,7 @@ trait GoogleMaps
                         $type = $types[0];
                     }else {
                         foreach($types as $subType){
-                            $selectedSubTypes = ['sublocality', 'administrative_area_level_1', 'administrative_area_level_2', 'country'];
+                            $selectedSubTypes = ['sublocality_level_1', 'administrative_area_level_1', 'administrative_area_level_2', 'country'];
                             if(in_array($subType, $selectedSubTypes)){
                                 $type = $subType;
                                 break;
