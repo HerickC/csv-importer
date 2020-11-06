@@ -1,0 +1,10 @@
+nome,email,datanasc,cpf,endereco,cep
+Cliente 1,teste1@teste.com,05/10/1993,123.456.789-01,"Av Paulista, 123 - Pinheiros – São Paulo",01311-000
+Cliente 2,teste2@teste.com,05/10/1992,123.456.789-09,"Avenida Dr. Gastão Vidigal, 1132 Sala 123 - Vila Leopoldina – São Paulo",05314-010
+Cliente 3,teste3@teste.com,05/10/1991,123.456.789-17,"Rua Caçapava, 123 – Novo Riacho – Contagem",32285-030
+Cliente 4,teste4@teste.com,05/10/1990,123.456.789-25,"Rua Rio Sacramento, 421 Bloco A, Apt 402 – Contagem",32280-470
+Cliente 5,teste5@teste.com,05/10/1989,123.456.789-33,"R. Tubira, 88 - Novo Eldorado, Contagem",32340-460
+Cliente 6,teste6@teste.com,05/10/1988,123.456.789-41,"Av. João César de Oliveira, 2859 - Eldorado, Contagem",32310-000
+Cliente 7,teste7@teste.com,05/10/1987,123.456.789-49,"Av. Pres. Antônio Carlos, 3860 - Pampulha, Belo Horizonte",31270-000
+Cliente 8,teste8@teste.com,05/10/1986,123.456.789-57,"Av. do Contorno, 9530 - Barro Preto, Belo Horizonte",30110-934
+Cliente 9,teste9@teste.com,05/10/1985,123.456.789-65,"Av. Presidente Carlos Luz, 3001 - Pampulha, Belo Horizonte",31250-010
