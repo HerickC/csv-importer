@@ -19350,18 +19350,26 @@ var app = new Vue({
     clients: [],
     uploadProgress: 0
   },
+  computed: {
+    hasClients: function hasClients() {
+      return this.clients.length > 0;
+    }
+  },
   methods: {
     getAllClients: function getAllClients() {
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/clients').then(function (response) {
         _this.clients = response.data;
+        Vue.nextTick().then(function () {
+          jQuery('[data-toggle="tooltip"]').tooltip();
+        });
       });
     },
     removeClient: function removeClient(id) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/api/clients/".concat(id)).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/api/clients/".concat(id)).then(function () {
         _this2.getAllClients();
       });
     },
@@ -19375,15 +19383,28 @@ var app = new Vue({
       var config = {
         onUploadProgress: function onUploadProgress(event) {
           _this3.uploadProgress = Math.round(event.loaded * 100 / event.total);
-          console.log(_this3.uploadProgress);
         },
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/import', formData, config).then(function () {
+        $('#importModal').modal('hide');
+
         _this3.getAllClients();
+
+        _this3.uploadProgress = 0;
       });
+    },
+    formatedClientTooltip: function formatedClientTooltip(client) {
+      return "<b>E-Mail: </b>".concat(client.email, "<br><b>CPF: </b>").concat(client.cpf, "<br><b>Nascimento: </b> ").concat(client.birthday, "<br>");
+    },
+    formatedAddressTooltip: function formatedAddressTooltip(address) {
+      var complement = address.complementary != null ? ' - ' + address.complementary : '';
+      return "".concat(address.street, ", ").concat(address.street_number).concat(complement, "<br>") + "".concat(address.neighborhood, ", ").concat(address.city, ", ").concat(address.state, "<br>") + "<b>CEP: </b> ".concat(address.zipcode);
+    },
+    exportClients: function exportClients() {
+      window.open('/export', '_blank');
     }
   },
   mounted: function mounted() {

@@ -5,14 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Clients;
 use App\Models\Addresses;
-use App\Traits\GoogleMaps;
-use App\Jobs\getGeoLocation;
 use Carbon\Carbon;
 
 class ClientController extends Controller
 {
-    use GoogleMaps;
-
     public function getClients(){
         $formatedClients = [];
 
@@ -54,12 +50,5 @@ class ClientController extends Controller
         }
 
         return response('', $status);
-    }
-
-
-    public function testGmap($id)
-    {
-
-        return 'ok';
     }
 }
