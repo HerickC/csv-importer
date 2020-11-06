@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Clients;
 use App\Models\Addresses;
 use App\Traits\GoogleMaps;
+use App\Jobs\getGeoLocation;
 use Carbon\Carbon;
 
 class ClientController extends Controller
@@ -58,7 +59,7 @@ class ClientController extends Controller
 
     public function testGmap($id)
     {
-        $client = Clients::find($id);
-        return $this->getGeoLocationData($client);
+
+        return 'ok';
     }
 }

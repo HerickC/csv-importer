@@ -1,4 +1,14 @@
+require('./bootstrap');
 import Axios from 'axios';
+
+var pusher = new Pusher('3654e69354fd23fbfaf6', {
+  cluster: 'us2'
+});
+
+var channel = pusher.subscribe('clients');
+channel.bind('client-update', function() {
+  app.getAllClients();
+});
 
 var app = new Vue({
     el: '#app',

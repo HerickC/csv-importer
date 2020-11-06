@@ -40,8 +40,11 @@
                     <td>@{{client.name}}</td>
                     <td v-bind:class="{textCenter: client.address.city == null}">
                         <span v-if="client.address.city == null" class="text-center"><i class="fas fa-spinner fa-spin"></i></span>
-                        <span v-else>
+                        <span v-else data-toggle="tooltip" data-toggle="tooltip" data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
                             @{{client.address.city}}, @{{client.address.state}}
+                            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                Tooltip with HTML
+                            </button>
                         </span>
 
                     </td>
